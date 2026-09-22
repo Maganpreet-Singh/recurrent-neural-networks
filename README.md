@@ -1,271 +1,399 @@
-# 🔄 Recurrent Neural Networks
+# 🔄 Recurrent Neural Networks Lab
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Deep%20Learning-RNN-blue?style=for-the-badge" alt="Deep Learning">
-  <img src="https://img.shields.io/badge/Python-3.x-yellow?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/TensorFlow-2.20.0-orange?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow">
-  <img src="https://img.shields.io/badge/NumPy-Scientific%20Computing-blue?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy">
-  <img src="https://img.shields.io/badge/Google%20Colab-T4%20GPU-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white" alt="Google Colab">
+  <img src="https://img.shields.io/badge/Deep%20Learning-Recurrent%20Neural%20Networks-7c3aed?style=for-the-badge" alt="Deep Learning">
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow">
+  <img src="https://img.shields.io/badge/Keras-Deep%20Learning-D00000?style=for-the-badge&logo=keras&logoColor=white" alt="Keras">
+  <img src="https://img.shields.io/badge/NumPy-Numerical-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy">
+  <img src="https://img.shields.io/badge/Jupyter-Notebooks-F37626?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter">
 </p>
 
 <p align="center">
-  <strong>A hands-on exploration of Recurrent Neural Networks, from mathematical forward propagation to a practical TensorFlow/Keras sentiment-classification model.</strong>
+  <strong>From recurrent equations to GRU classification and LSTM language modeling.</strong>
+</p>
+
+<p align="center">
+  <a href="#-overview">Overview</a> •
+  <a href="#-repository-structure">Structure</a> •
+  <a href="#-learning-path">Learning Path</a> •
+  <a href="#-experiments">Experiments</a> •
+  <a href="#-setup">Setup</a> •
+  <a href="#-roadmap">Roadmap</a>
 </p>
 
 ---
 
-## 📌 Overview
+## 🧭 Overview
 
-This repository is a focused deep-learning study of **Recurrent Neural Networks (RNNs)**.
+This repository is a hands-on study of sequence modeling with recurrent neural networks.
 
-The current implementation demonstrates how an RNN processes a sequence one time step at a time, maintains a hidden state, and transforms the final hidden representation into a binary prediction.
+It is organized as a progression rather than a pile of unrelated notebooks:
 
-The notebook begins with a small, interpretable vocabulary and a toy set of movie-review sequences. Instead of immediately hiding the mechanics behind a framework abstraction, it first builds the core computation manually with **NumPy** and then connects those concepts to **TensorFlow/Keras**.
+~~~text
+RNN fundamentals
+      ↓
+Forward propagation
+      ↓
+Token representations
+      ↓
+Embeddings
+      ↓
+Bidirectional recurrence
+      ↓
+Deep recurrent architectures
+      ↓
+GRU sentiment analysis
+      ↓
+LSTM language modeling
+      ↓
+Next-word prediction
+      ↓
+Autoregressive text generation
+      ↓
+Attention / Transformers
+~~~
 
-The result is a compact but highly educational progression:
+The central idea is simple:
 
-```
-Words
-  ↓
-Integer / One-Hot Encoding
-  ↓
-Sequence Representation
-  ↓
-RNN Hidden-State Updates
-  ↓
-Final Hidden State
-  ↓
-Output Layer
-  ↓
-Sigmoid Probability
-  ↓
-Binary Prediction
-```
+> A sequence model must represent not just the current input, but the information that has arrived before it.
 
----
+A vanilla recurrent neural network does this with a hidden state:
 
-## ✨ What This Repository Covers
+h_t = φ(W_xh x_t + W_hh h_(t-1) + b_h)
 
-### 🧠 Core RNN Concepts
+The exact notation can vary, but the concept is stable: the current state depends on the current input and the previous state.
 
-- Sequential data representation
-- Vocabulary creation
-- One-hot encoding
-- Time steps
-- Hidden states
-- Initial hidden state
-- Input-to-hidden weights
-- Hidden-to-hidden recurrent weights
-- Bias terms
-- Hidden-state recurrence
-- `tanh` activation
-- Output projection
-- Sigmoid activation
-- Binary cross-entropy
-- Parameter counting
+This repository deliberately starts close to the mathematics. Later notebooks then move into practical TensorFlow/Keras implementations and NLP applications.
 
-### ⚙️ Framework Implementation
+The result is intended to be useful in three ways:
 
-- `tf.keras.layers.SimpleRNN`
-- `tf.keras.layers.Dense`
-- `tf.keras.layers.Embedding`
-- Adam optimizer
-- Binary cross-entropy loss
-- Accuracy metric
-- Training and evaluation
-- Sequence-level prediction
-- Model saving with TensorFlow SavedModel
-
-### 🔍 Practical Learning
-
-The notebook explicitly compares the conceptual RNN equations with a working neural-network implementation, making it useful for understanding not only **how to use RNNs**, but also **what happens inside them**.
+1. as a learning curriculum,
+2. as a reference for recurrent-network implementation,
+3. as a portfolio project showing progression from fundamentals to applied deep learning.
 
 ---
 
-## 📁 Repository Structure
+## 🎯 Project Objectives
 
-```text
+The repository has several connected objectives.
+
+### Understand recurrent computation
+
+Learn why recurrence exists, how state is updated, how information flows through time steps, and how recurrent parameters are reused.
+
+### Understand representations
+
+Move from symbolic tokens and one-hot vectors to integer token IDs and learned embeddings.
+
+### Understand architectural families
+
+Study the relationship between vanilla RNNs, bidirectional RNNs, LSTMs, and GRUs.
+
+### Build NLP systems
+
+Use recurrent architectures for sequence classification and next-token prediction.
+
+### Learn evaluation
+
+Understand why training loss alone is not enough. Inspect validation behavior, accuracy, top-k accuracy, perplexity, prediction distributions, and generated text where appropriate.
+
+### Learn model engineering
+
+Save trained models, preserve preprocessing mappings, manage dependencies, and organize experiments so another person can understand what was done.
+
+---
+
+# 📁 Repository Structure
+
+The repository is organized around the following portfolio structure:
+
+~~~text
 recurrent-neural-networks/
 │
-├── RNN_Forward_Propagation.ipynb
-│   └── Manual RNN mathematics + TensorFlow/Keras implementation
+├── notebooks/
+│   ├── 01_rnn_forward_propagation.ipynb
+│   ├── 02_rnn_embedding.ipynb
+│   ├── 03_bidirectional_rnn.ipynb
+│   ├── 04_deep_rnn_lstm_gru.ipynb
+│   ├── 05_gru_sentiment_analysis.ipynb
+│   └── 06_lstm_next_word_predictor.ipynb
 │
-└── README.md
-```
+├── models/
+│   └── gru_sentiment_model.keras
+│
+├── docs/
+│   └── learning-guide.md
+│
+├── README.md
+├── requirements.txt
+├── .gitignore
+│
+└── LICENSE
+~~~
+
+The notebook files are numbered intentionally.
+
+The number is not a claim that one architecture is universally more important than another. It simply establishes a recommended reading order.
+
+The project can later grow into a larger machine-learning engineering layout:
+
+~~~text
+recurrent-neural-networks/
+│
+├── notebooks/
+│   ├── fundamentals/
+│   ├── architectures/
+│   ├── sentiment/
+│   └── language_modeling/
+│
+├── src/
+│   ├── data/
+│   ├── models/
+│   ├── training/
+│   ├── evaluation/
+│   └── inference/
+│
+├── configs/
+├── models/
+├── reports/
+│   ├── figures/
+│   └── metrics/
+├── tests/
+├── scripts/
+├── docs/
+├── requirements.txt
+├── README.md
+└── .github/
+~~~
+
+That second structure is the long-term target for turning the learning project into a reusable ML codebase.
 
 ---
 
-## 📓 Main Notebook
+# 🧹 File Migration Map
 
-### `RNN_Forward_Propagation.ipynb`
+The cleaned repository maps the original files as follows:
 
-This notebook is the core of the repository.
+| Original file | New location |
+|---|---|
+| RNN_Forward_Propagation.ipynb | notebooks/01_rnn_forward_propagation.ipynb |
+| rnn_embedding.ipynb | notebooks/02_rnn_embedding.ipynb |
+| bidirectional_rnn.ipynb | notebooks/03_bidirectional_rnn.ipynb |
+| Deep_RNN_LSTM_GRU.ipynb | notebooks/04_deep_rnn_lstm_gru.ipynb |
+| GRU_Sentiment_Analysis.ipynb | notebooks/05_gru_sentiment_analysis.ipynb |
+| LSTM_Next_Word_Predictor.ipynb | notebooks/06_lstm_next_word_predictor.ipynb |
+| gru_sentiment_model.keras | models/gru_sentiment_model.keras |
 
-It walks through a complete miniature RNN pipeline using a six-example toy sentiment dataset.
+The goal is to make the repository understandable without opening any notebook first.
 
-### Main stages
+A visitor should be able to answer three questions immediately:
 
-```text
-1. Import dependencies
-2. Set reproducible random seeds
-3. Define a small vocabulary
-4. One-hot encode vocabulary words
-5. Build labeled sequences
-6. Inspect sequence dimensions
-7. Define RNN parameters
-8. Calculate parameter count
-9. Perform manual forward propagation
-10. Track hidden states
-11. Compute output probability
-12. Calculate binary cross-entropy
-13. Build a Keras SimpleRNN
-14. Train the network
-15. Inspect sequence outputs
-16. Introduce Embedding
-17. Train an embedding + RNN model
-18. Evaluate predictions
-19. Save the trained TensorFlow model
-```
+- What is this project?
+- What experiments exist?
+- Where do I start?
 
 ---
 
-# 🧩 1. Problem Setup
+# 🗺️ Learning Path
 
-The notebook uses a deliberately small vocabulary:
+The recommended path is:
 
-```text
+~~~text
+01 → 02 → 03 → 04 → 05 → 06
+~~~
+
+### Stage 01 — RNN Forward Propagation
+
+Start with equations, hidden states, recurrent weights, output computation, and parameter counting.
+
+### Stage 02 — Embeddings
+
+Replace sparse token representations with trainable dense vectors.
+
+### Stage 03 — Bidirectional RNNs
+
+Explore information flow in both temporal directions.
+
+### Stage 04 — Deep RNN / LSTM / GRU
+
+Move from the basic recurrent cell to gated and stacked recurrent architectures.
+
+### Stage 05 — GRU Sentiment Analysis
+
+Apply recurrent modeling to an NLP classification problem.
+
+### Stage 06 — LSTM Next-Word Prediction
+
+Work on a larger language-modeling pipeline with WikiText-103, vocabulary construction, context windows, next-token prediction, sampling, and text generation.
+
+---
+
+# 🔁 1. Recurrent Neural Network Fundamentals
+
+A recurrent neural network processes a sequence one step at a time.
+
+For a sequence:
+
+~~~text
+x₁, x₂, x₃, ..., x_T
+~~~
+
+the model repeatedly updates a state:
+
+~~~text
+h₀
+ ↓
+x₁ → h₁
+       ↓
+x₂ → h₂
+       ↓
+x₃ → h₃
+       ↓
+...
+       ↓
+x_T → h_T
+~~~
+
+The same recurrent transformation is reused at every step.
+
+This gives the architecture a useful property: the model can process sequences whose temporal structure is not naturally represented by a single independent feature vector.
+
+The hidden state is not a perfect memory.
+
+It is a learned representation with limited capacity.
+
+That distinction matters.
+
+An RNN does not literally store a clean transcript of everything it has seen. It repeatedly compresses information into its current state representation.
+
+---
+
+## 🧮 Vanilla RNN Equation
+
+A common formulation is:
+
+h_t = tanh(W_xh x_t + W_hh h_(t-1) + b_h)
+
+Here:
+
+| Component | Meaning |
+|---|---|
+| x_t | Current input |
+| h_(t-1) | Previous hidden state |
+| h_t | Current hidden state |
+| W_xh | Input-to-hidden weights |
+| W_hh | Recurrent weights |
+| b_h | Bias |
+| tanh | Nonlinear activation |
+
+The recurring term is:
+
+W_hh h_(t-1)
+
+That term is what carries information from one step into the next.
+
+---
+
+# 🧩 2. Forward Propagation
+
+The first notebook is designed to make the recurrence visible.
+
+It uses a deliberately small vocabulary and a tiny sequence dataset so the reader can inspect the data directly.
+
+The conceptual pipeline is:
+
+~~~text
+tokens
+  ↓
+encoding
+  ↓
+sequence tensor
+  ↓
+initial hidden state
+  ↓
+recurrent updates
+  ↓
+final hidden state
+  ↓
+output projection
+  ↓
+sigmoid
+  ↓
+binary prediction
+~~~
+
+The notebook demonstrates the mechanics with a small vocabulary containing:
+
+~~~text
 movie
 actor
 good
 bad
 not
-```
+~~~
 
-The vocabulary contains:
+and a compact collection of fixed-length examples.
 
-```text
-Vocabulary size = 5
-Time steps = 3
-Input features = 5
-Hidden units = 3
-```
+This is an educational setup, not a realistic sentiment benchmark.
 
-Each review contains exactly three tokens.
+Its value comes from transparency.
 
-Example:
-
-```text
-["movie", "good", "actor"]
-```
-
-The toy dataset contains six labeled sequences:
-
-| Sequence | Label |
-|---|---:|
-| movie good actor | 1 |
-| movie bad actor | 0 |
-| not good movie | 1 |
-| movie not bad | 0 |
-| good movie actor | 1 |
-| bad movie actor | 0 |
-
-Here:
-
-- `1` represents the positive class.
-- `0` represents the negative class.
-
-> **Important:** This is a deliberately tiny educational dataset. The reported training performance demonstrates that the model can fit this toy dataset; it should not be interpreted as a general sentiment-analysis benchmark.
+When the number of examples is tiny, every tensor and equation can be inspected.
 
 ---
 
-# 🔢 2. One-Hot Encoding
+## 🔢 One-Hot Encoding
 
-Each word is represented as a vector of length 5.
+With a vocabulary size of five, each token can be represented with five values.
 
-For example:
+Example:
 
-```text
+~~~text
 movie → [1, 0, 0, 0, 0]
 actor → [0, 1, 0, 0, 0]
 good  → [0, 0, 1, 0, 0]
 bad   → [0, 0, 0, 1, 0]
 not   → [0, 0, 0, 0, 1]
-```
+~~~
 
-A three-word sequence therefore becomes a matrix with shape:
+A three-token sequence therefore has shape:
 
-```text
+~~~text
 (3, 5)
-```
+~~~
 
-Across all six training examples:
+A batch of six samples has:
 
-```text
-X.shape = (6, 3, 5)
-```
+~~~text
+(6, 3, 5)
+~~~
 
-This introduces the central sequence-learning structure:
+The dimensions represent:
 
-[
-	ext{samples} 	imes 	ext{timesteps} 	imes 	ext{features}
-]
+~~~text
+samples × time steps × features
+~~~
 
----
-
-# 🔁 3. Understanding the RNN State
-
-The recurrent computation is represented by:
-
-[
-h_t = 	anh(x_t W_{xh} + h_{t-1} W_{hh} + b_h)
-]
-
-Where:
-
-| Symbol | Meaning |
-|---|---|
-| (x_t) | Input at time step (t) |
-| (h_{t-1}) | Previous hidden state |
-| (h_t) | Current hidden state |
-| (W_{xh}) | Input-to-hidden weights |
-| (W_{hh}) | Hidden-to-hidden recurrent weights |
-| (b_h) | Hidden-layer bias |
-
-The final output is:
-
-[
-y = h_T W_{hy} + b_y
-]
-
-followed by sigmoid:
-
-[
-hat{y} = sigma(y)
-]
-
-The key idea is simple:
-
-> **The current hidden state is influenced by both the current input and information carried from previous time steps.**
+Shape literacy becomes increasingly important as the project moves into embeddings, stacked LSTMs, and language modeling.
 
 ---
 
-# 🧮 4. Manual RNN Forward Propagation
+## 🧮 Parameter Counting
 
-One of the strongest parts of this repository is the explicit implementation of the RNN equations.
+For a simple binary-output RNN with input dimension D and hidden dimension H, the parameter count can be expressed as:
 
-The notebook defines:
+D·H + H² + 2H + 1
 
-```text
-W_xh
-W_hh
-b_h
-W_hy
-b_y
-```
+The terms correspond to:
 
-For the current configuration, the manual recurrent component contains **31 parameters**.
+- input-to-hidden weights
+- hidden-to-hidden recurrent weights
+- hidden bias
+- hidden-to-output weights
+- output bias
 
-The parameter breakdown is:
+For the small configuration used by the original educational notebook:
 
 | Parameter group | Count |
 |---|---:|
@@ -276,629 +404,1711 @@ The parameter breakdown is:
 | Output bias | 1 |
 | **Total** | **31** |
 
-The general binary-output parameter formula used here is:
-
-[
-D H + H^2 + H + H + 1
-]
-
-where:
-
-- (D) = input feature dimension
-- (H) = hidden-unit count
-
-or equivalently:
-
-[
-D H + H^2 + 2H + 1
-]
+Parameter counting is useful because it gives a quick connection between architecture design and computational cost.
 
 ---
 
-# 🧠 5. Hidden-State Evolution
+# 📤 3. From Hidden State to Prediction
 
-For the example sequence:
+Once the final hidden state has been computed, a dense layer can transform it into an output score.
 
-```text
-movie → good → actor
-```
+The binary pipeline is:
 
-the notebook initializes:
+~~~text
+final hidden state
+       ↓
+linear output
+       ↓
+sigmoid probability
+       ↓
+class threshold
+~~~
 
-[
-h_0 = [0,0,0]
-]
+The sigmoid function is:
 
-Then computes:
+σ(z) = 1 / (1 + e^(-z))
 
-[
-h_1 = f(x_1,h_0)
-]
+which maps a real-valued score into the interval:
 
-[
-h_2 = f(x_2,h_1)
-]
+~~~text
+0 → 1
+~~~
 
-[
-h_3 = f(x_3,h_2)
-]
+Binary cross-entropy then connects the prediction to the training objective.
 
-The sequence is therefore processed sequentially rather than as three independent inputs.
+The important conceptual sequence is:
 
-This is the defining characteristic of recurrent computation.
-
----
-
-# 📤 6. Output Prediction
-
-After processing the complete sequence, the notebook uses the final hidden state to produce an output score.
-
-Conceptually:
-
-[
-z = h_3 W_{hy} + b_y
-]
-
-and:
-
-[
-hat{y} = rac{1}{1+e^{-z}}
-]
-
-The resulting value lies between 0 and 1 and can be interpreted as the model's estimated probability for the positive class.
-
-A threshold of 0.5 is used for binary prediction:
-
-```text
-prediction >= 0.5 → class 1
-prediction < 0.5  → class 0
-```
-
----
-
-# 📉 7. Binary Cross-Entropy
-
-The notebook also implements the binary cross-entropy loss directly:
-
-[
-L = -[ylog(hat{y}) + (1-y)log(1-hat{y})]
-]
-
-The implementation clips predictions before taking logarithms to avoid numerical problems near 0 and 1.
-
-This makes the notebook useful for connecting:
-
-```text
-prediction
-   ↓
+~~~text
+model parameters
+      ↓
+hidden-state computation
+      ↓
+output score
+      ↓
 probability
-   ↓
+      ↓
 loss
-   ↓
-training objective
-```
+      ↓
+parameter update
+~~~
 
 ---
 
-# 🏗️ 8. TensorFlow/Keras SimpleRNN
+# 🔤 4. Embeddings
 
-After the manual implementation, the notebook uses TensorFlow/Keras to construct an equivalent recurrent architecture.
+One-hot encoding is excellent for teaching.
 
-Conceptually:
+It is usually not the representation you want to build an NLP system around at scale.
 
-```text
-Input
-  ↓
-SimpleRNN
-  ↓
-Dense
-  ↓
-Sigmoid
-  ↓
-Binary output
-```
+The next stage therefore introduces embedding vectors.
 
-The model uses:
+The pipeline becomes:
 
-```python
-tf.keras.layers.SimpleRNN
-```
+~~~text
+token
+ ↓
+integer ID
+ ↓
+embedding lookup
+ ↓
+dense vector
+ ↓
+RNN
+~~~
 
-with a `tanh` activation and a dense sigmoid output.
+An embedding layer can be thought of as a trainable matrix.
 
-This gives a practical bridge between the mathematics and a production-style deep-learning API.
+If the vocabulary contains V tokens and the embedding dimension is E, the embedding matrix has a conceptual shape of:
+
+~~~text
+(V, E)
+~~~
+
+Each token ID selects one row.
+
+This is a simple operation, but it is a foundational idea in modern NLP.
+
+Embeddings provide a compact continuous representation that a sequence model can process more efficiently than a very large one-hot vector.
 
 ---
 
-# 📊 9. Sequence Output
+## 🧠 Representation Learning
 
-The notebook also demonstrates `return_sequences=True`.
+A crucial lesson is that embeddings are learned representations.
 
-Instead of returning only the final hidden state, the model produces an output for every time step:
+The model does not begin with a perfect dictionary saying which words are synonyms.
 
-```text
-time step 1 → output
-time step 2 → output
-time step 3 → output
-```
+Instead, training updates the embedding vectors so that they become useful for the objective.
 
-For a three-step sequence, the resulting shape is:
+That means the resulting space depends on:
 
-```text
-(batch_size, 3, 1)
-```
+- data
+- preprocessing
+- architecture
+- objective
+- optimization
+- regularization
+- random initialization
 
-This distinction is essential when working with:
+Embeddings should therefore be understood as learned statistical representations rather than magical containers of human meaning.
+
+---
+
+# ↔️ 5. Bidirectional RNNs
+
+A regular recurrent network processes a sequence in a single direction.
+
+For a four-token sequence:
+
+~~~text
+t₁ → t₂ → t₃ → t₄
+~~~
+
+a bidirectional architecture also processes:
+
+~~~text
+t₄ → t₃ → t₂ → t₁
+~~~
+
+The two information streams can then be combined.
+
+This creates representations informed by:
+
+- left context
+- right context
+
+That can be useful for tasks where the entire sequence is already available.
+
+Examples include:
 
 - sequence classification
 - sequence labeling
-- many-to-many architectures
-- stacked recurrent layers
+- contextual token representations
+- certain NLP tagging tasks
+
+However, bidirectionality is not automatically valid everywhere.
+
+For causal forecasting, future observations may not be available when a prediction must be produced.
+
+Architecture selection has to follow the information available at inference time.
 
 ---
 
-# 🔤 10. Embeddings
+# 🏗️ 6. Deep Recurrent Architectures
 
-The notebook then moves from manually created one-hot vectors to integer token representations.
+A single recurrent layer is not the end of recurrent modeling.
 
-Example representation:
+Multiple recurrent layers can be stacked:
 
-```text
-movie → 1
-actor → 2
-good  → 3
-bad   → 4
-not   → 5
-```
-
-An embedding layer converts these integer IDs into dense vectors.
-
-The architecture becomes:
-
-```text
-Integer Token IDs
-        ↓
-Embedding
-        ↓
-SimpleRNN
-        ↓
-Dense
-        ↓
-Sigmoid
-```
-
-The practical model in the notebook uses:
-
-- vocabulary size + padding index
-- embedding dimension = 16
-- SimpleRNN hidden size = 8
-- Dense binary output
-
-The resulting model contains **305 trainable parameters** under the demonstrated configuration.
-
----
-
-# 🚀 11. Training
-
-The practical Keras model is compiled with:
-
-```text
-Optimizer: Adam
-Loss: Binary Cross-Entropy
-Metric: Accuracy
-```
-
-Training is performed directly on the toy sequence dataset.
-
-The notebook trains for:
-
-```text
-100 epochs
-batch size = 2
-```
-
-Because the dataset is intentionally tiny, the model can fit it very easily.
-
-The reported evaluation result reaches:
-
-```text
-Accuracy = 1.0
-```
-
-Again, this reflects fitting the **six-example toy dataset**, not performance on a real-world sentiment corpus.
-
----
-
-# 🔍 12. Example Predictions
-
-The trained practical model is tested on sequences such as:
-
-```text
-movie good actor
-movie bad actor
-not good movie
-movie not bad
-```
-
-The notebook reports probabilities and binary predictions for these sequences.
-
-Example behavior demonstrated by the saved run:
-
-| Review | Probability | Prediction |
-|---|---:|---:|
-| movie good actor | 0.9177 | 1 |
-| movie bad actor | 0.0696 | 0 |
-| not good movie | 0.9583 | 1 |
-| movie not bad | 0.0609 | 0 |
-
-These values show that the trained model separates the toy positive and negative examples in this controlled setup.
-
----
-
-# 💾 13. Model Saving
-
-The trained model is exported using TensorFlow's SavedModel mechanism.
-
-The notebook saves the model under:
-
-```text
-rnn_sentiment_model
-```
-
-This is a useful first step toward separating:
-
-```text
-training
-   ↓
-serialization
-   ↓
-deployment / inference
-```
-
----
-
-# 🧰 Technologies Used
-
-| Technology | Purpose |
-|---|---|
-| Python | Core programming language |
-| NumPy | Numerical operations and manual RNN computation |
-| TensorFlow | Deep-learning framework |
-| Keras | High-level neural-network API |
-| Matplotlib | Visualization support |
-| Google Colab | Notebook execution environment |
-| T4 GPU | Runtime accelerator configured in Colab |
-
-The notebook records TensorFlow version **2.20.0** in its execution environment.
-
----
-
-# 🧪 Learning Objectives
-
-After working through this repository, you should be able to explain:
-
-### Fundamentals
-
-- What sequential data is
-- Why ordinary dense networks do not naturally model order
-- What a hidden state represents
-- Why recurrent weights are reused across time
-
-### Mathematics
-
-- RNN recurrence equations
-- Input-to-hidden transformation
-- Hidden-to-hidden transformation
-- Output projection
-- `tanh` activation
-- Sigmoid probabilities
-- Binary cross-entropy
-
-### Implementation
-
-- Build sequence tensors
-- Encode tokens
-- Implement an RNN step manually
-- Track hidden states
-- Count trainable parameters
-- Build a Keras `SimpleRNN`
-- Use `Embedding`
-- Train and evaluate a recurrent model
-- Save a trained TensorFlow model
-
----
-
-# 📐 Tensor Shapes
-
-Understanding shapes is critical when working with RNNs.
-
-For the manual one-hot pipeline:
-
-```text
-X
-└── (6, 3, 5)
-
-6  = samples
-3  = time steps
-5  = input features
-```
-
-For a recurrent hidden representation:
-
-```text
-hidden state
-└── (hidden_units,)
-```
-
-For the sequence-returning Keras model:
-
-```text
+~~~text
+input
+  ↓
+RNN / LSTM / GRU
+  ↓
+RNN / LSTM / GRU
+  ↓
 output
-└── (batch_size, time_steps, features)
-```
+~~~
 
-These dimensions become even more important when moving to LSTM, GRU, bidirectional networks, and attention-based architectures.
+This lets later layers operate on representations produced by earlier recurrent layers.
+
+The benefit is additional representational capacity.
+
+The cost is additional parameters, memory, and compute.
+
+This is one of the recurring engineering trade-offs throughout deep learning:
+
+~~~text
+capacity ↑
+compute ↑
+memory ↑
+risk of overfitting can ↑
+~~~
+
+More depth must earn its place through better validation behavior or useful capability.
 
 ---
 
-# 🧭 Conceptual Roadmap
+# 🚪 7. LSTM
 
-This repository currently establishes the fundamentals of vanilla RNNs.
+Long Short-Term Memory adds explicit mechanisms for controlling information flow.
 
-A natural progression from here is:
+A useful conceptual view is:
 
-```text
-Vanilla RNN
+~~~text
+previous cell state
+        │
+        ▼
+   ┌──────────┐
+   │   LSTM   │
+   └──────────┘
+     ▲      ▲
+     │      │
+ previous   input
+ hidden
+~~~
+
+The architecture maintains:
+
+- a cell state
+- a hidden state
+
+and uses gates to regulate information.
+
+---
+
+## Forget Gate
+
+The forget gate controls how much previous cell-state information should be retained.
+
+Conceptually:
+
+~~~text
+old memory
    ↓
-Backpropagation Through Time
-   ↓
-Vanishing / Exploding Gradients
-   ↓
-LSTM
-   ↓
+keep some
+discard some
+~~~
+
+## Input Gate
+
+The input gate controls how much new information should be written into the cell state.
+
+## Candidate State
+
+A candidate update provides new information that may be integrated into memory.
+
+## Output Gate
+
+The output gate controls how much of the internal state becomes the new hidden representation.
+
+The broad intuition is:
+
+~~~text
+remember
+write
+expose
+~~~
+
+This is more structured than the single-state update in a vanilla RNN.
+
+---
+
+# ⚡ 8. GRU
+
+A Gated Recurrent Unit provides another gated recurrent design.
+
+Its architecture is often described through update and reset mechanisms.
+
+A conceptual view is:
+
+~~~text
+previous hidden state
+        +
+      input
+        ↓
+ gates control information
+        ↓
+ new hidden state
+~~~
+
+Compared with LSTM, GRU uses a simpler state structure.
+
+That can reduce architectural complexity while still giving the network explicit mechanisms for controlling information flow.
+
+Again, there is no universal law that one gated recurrent architecture must dominate another.
+
+The correct comparison requires:
+
+- the same task
+- compatible preprocessing
+- sensible validation
+- comparable compute budgets
+- meaningful metrics
+
+---
+
+# ❤️ 9. GRU Sentiment Analysis
+
+The sentiment notebook moves the repository from concept demonstrations into a recognizable NLP application.
+
+The high-level workflow is:
+
+~~~text
+raw text
+  ↓
+tokenization
+  ↓
+integer sequence
+  ↓
+padding / batching
+  ↓
+embedding
+  ↓
 GRU
-   ↓
-Bidirectional RNNs
-   ↓
-Sequence-to-Sequence Models
-   ↓
-Attention
-   ↓
-Transformers
-```
+  ↓
+classification layer
+  ↓
+sentiment probability
+~~~
+
+The repository also stores a trained Keras model artifact:
+
+~~~text
+models/gru_sentiment_model.keras
+~~~
+
+Keeping the trained artifact separate from the notebook creates a useful project boundary:
+
+~~~text
+Notebook
+    = how the model was built
+
+Model artifact
+    = trained result that can be loaded elsewhere
+~~~
+
+For a mature version of the project, the sentiment experiment should additionally report:
+
+- train split size
+- validation split size
+- test split size
+- class balance
+- confusion matrix
+- precision
+- recall
+- F1 score
+- representative errors
+- inference examples
+
+A model that achieves high training accuracy can still generalize poorly.
+
+Evaluation must therefore be separated from fitting.
 
 ---
 
-# ⚠️ Important Limitations
+# 📝 10. LSTM Next-Word Prediction
 
-This repository is primarily an educational implementation.
+The language-modeling notebook is the most substantial experiment in the current repository.
 
-The current notebook uses:
+It uses the WikiText-103 configuration:
 
-- a tiny hand-crafted vocabulary
-- six toy training examples
-- fixed-length sequences of three tokens
-- a binary sentiment-style label
-- manually chosen recurrent weights for the forward-pass demonstration
+~~~text
+Salesforce/wikitext
+wikitext-103-v1
+~~~
 
-Therefore, it is **not** intended to represent a production sentiment-analysis system.
+The workflow covers far more than simply attaching an LSTM layer to some text.
 
-For a more realistic benchmark, the project could later use a larger dataset with:
+It includes:
 
-- train/validation/test splits
-- padding and masking
-- larger vocabularies
-- unknown-token handling
-- regularization
+- dataset loading
+- text cleaning
+- split inspection
+- line-length analysis
+- token frequency analysis
+- vocabulary construction
+- PAD and UNK token handling
+- token-to-ID conversion
+- fixed-length context windows
+- TensorFlow data pipelines
+- embedding
+- stacked LSTM layers
+- normalization
 - dropout
-- hyperparameter tuning
-- confusion matrices
-- precision, recall, and F1
-- systematic error analysis
+- AdamW optimization
+- mixed precision when a GPU is available
+- callbacks
+- training history
+- top-k accuracy
+- validation and test evaluation
+- perplexity
+- next-word probability inspection
+- top-k sampling
+- temperature sampling
+- autoregressive generation
+- vocabulary serialization
+- model serialization
+
+This is a meaningful progression from the tiny hand-built RNN example.
 
 ---
 
-# 💡 Why Start With a Manual RNN?
+# 📚 11. WikiText-103 Pipeline
 
-Framework APIs are powerful, but they can hide the mechanics.
+The notebook begins with raw text lines.
 
-A manual forward pass exposes the internal flow:
+Those lines are cleaned and transformed into token sequences.
 
-```text
-x₁ ──┐
+The conceptual data pipeline is:
+
+~~~text
+WikiText lines
+      ↓
+clean text
+      ↓
+tokens
+      ↓
+frequency analysis
+      ↓
+vocabulary
+      ↓
+integer IDs
+      ↓
+context windows
+      ↓
+TensorFlow Dataset
+~~~
+
+The notebook uses a bounded token budget instead of blindly consuming all available text.
+
+The demonstrated configuration includes:
+
+| Setting | Value |
+|---|---:|
+| Maximum vocabulary | 30,000 |
+| Context length | 32 |
+| Embedding dimension | 256 |
+| LSTM layer 1 | 384 units |
+| LSTM layer 2 | 256 units |
+| Dropout | 0.25 |
+| Batch size | 256 |
+| Epoch budget | 20 |
+| Train token limit | 12,000,000 |
+| Validation token limit | 600,000 |
+| Test token limit | 600,000 |
+| Minimum token frequency | 2 |
+
+These settings are experimental configuration, not universal recommendations.
+
+A different dataset, hardware budget, or objective can justify very different choices.
+
+---
+
+# 🪜 12. Context Windows
+
+A language model trained for next-word prediction needs training examples of the form:
+
+~~~text
+input:
+w₁ w₂ w₃ ... w_T
+
+target:
+w_(T+1)
+~~~
+
+Sliding this window across a token stream generates many supervised examples.
+
+For context length T:
+
+~~~text
+tokens [0 : T]       → target token [T]
+tokens [1 : T + 1]   → target token [T + 1]
+tokens [2 : T + 2]   → target token [T + 2]
+...
+~~~
+
+This converts an unsupervised-looking text stream into a supervised next-token objective.
+
+That transformation is one of the most important ideas in practical language modeling.
+
+---
+
+# 🧱 13. Stacked LSTM Architecture
+
+The WikiText notebook constructs a model conceptually similar to:
+
+~~~text
+Token IDs
+    ↓
+Embedding
+    ↓
+Layer Normalization
+    ↓
+LSTM, return sequences
+    ↓
+Layer Normalization
+    ↓
+LSTM, final state
+    ↓
+Layer Normalization
+    ↓
+Dropout
+    ↓
+Dense vocabulary projection
+    ↓
+Next-token logits
+~~~
+
+The first LSTM returns a sequence so that the second recurrent layer can continue processing temporal information.
+
+The second LSTM returns a final representation.
+
+The dense layer maps that representation into a vocabulary-sized output.
+
+The output is a vector of logits rather than a single binary probability.
+
+---
+
+# 🎯 14. Next-Token Prediction
+
+For a vocabulary of size V, the model produces V logits.
+
+Those logits are converted into a probability distribution with softmax:
+
+p_i = exp(z_i) / sum_j exp(z_j)
+
+The result represents the model's belief over possible next tokens.
+
+For example:
+
+~~~text
+candidate token     probability
+--------------------------------
+word A                 0.41
+word B                 0.23
+word C                 0.12
+word D                 0.08
+...
+~~~
+
+The model is not required to believe only one token is possible.
+
+It represents a distribution.
+
+That distribution becomes especially important during generation.
+
+---
+
+# 📉 15. Cross-Entropy
+
+For next-token prediction, the model is trained to place probability mass on the observed target token.
+
+Sparse categorical cross-entropy can be used when the target is represented as an integer class ID.
+
+The general learning loop is:
+
+~~~text
+predict distribution
+        ↓
+compare with target token
+        ↓
+calculate loss
+        ↓
+backpropagate
+        ↓
+update weights
+~~~
+
+As training proceeds, the model attempts to reduce expected prediction error on the training distribution.
+
+---
+
+# 📊 16. Accuracy Metrics
+
+The language-model notebook tracks:
+
+- top-1 accuracy
+- top-3 accuracy
+- top-5 accuracy
+
+### Top-1
+
+The correct token must be the most probable token.
+
+### Top-3
+
+The correct token can appear anywhere among the three highest-probability candidates.
+
+### Top-5
+
+The correct token can appear anywhere among the five highest-probability candidates.
+
+Top-k metrics are particularly informative for language models because natural language can be ambiguous.
+
+Multiple words may be plausible continuations even when only one token appears in the evaluation corpus.
+
+---
+
+# 📐 17. Perplexity
+
+The language model also calculates perplexity from cross-entropy loss.
+
+With natural-log cross-entropy:
+
+PPL = exp(loss)
+
+Perplexity can be interpreted as an approximate measure of how uncertain the model is over the observed distribution.
+
+Lower perplexity generally corresponds to assigning higher probability to observed targets, assuming the evaluation setups are comparable.
+
+Important:
+
+Perplexity is not directly comparable across arbitrary experiments.
+
+Changes in:
+
+- tokenizer
+- vocabulary
+- dataset
+- preprocessing
+- target construction
+- evaluation split
+
+can change the metric substantially.
+
+---
+
+# 🌡️ 18. Temperature
+
+The notebook exposes temperature during sampling.
+
+The conceptual transformation is:
+
+p_i = softmax(z_i / T)
+
+At lower temperature:
+
+~~~text
+distribution becomes sharper
+high-probability choices dominate
+generation becomes more conservative
+~~~
+
+At higher temperature:
+
+~~~text
+distribution becomes flatter
+more candidates become viable
+generation becomes more varied
+~~~
+
+Temperature changes decoding.
+
+It does not retrain the network.
+
+This distinction is important when debugging generative behavior.
+
+---
+
+# 🔝 19. Top-k Sampling
+
+Top-k sampling limits the candidate vocabulary to the k highest-scoring tokens.
+
+The general process is:
+
+~~~text
+model logits
      ↓
-    h₁ ──┐
-         ↓
-x₂ ────> h₂ ──┐
-              ↓
-x₃ ─────────> h₃
-               ↓
-             output
-```
+rank tokens
+     ↓
+keep top-k
+     ↓
+discard the rest
+     ↓
+renormalize
+     ↓
+sample
+~~~
 
-That makes it much easier to understand why an RNN is called **recurrent**.
+This prevents extremely low-probability tokens from entering the candidate set.
 
-The hidden state is carried forward through the sequence, allowing the network to maintain a learned representation of previous inputs.
+Top-k does not fix a badly trained model.
 
----
-
-# 🔥 Key Takeaways
-
-> **An RNN does not process every time step in isolation.**
-
-The model repeatedly applies the same recurrent transformation while updating its hidden state.
-
-The essential recurrence is:
-
-[
-h_t = 	anh(x_tW_{xh} + h_{t-1}W_{hh}+b_h)
-]
-
-The final hidden state can then feed an output layer for classification.
-
-The practical notebook demonstrates the complete journey:
-
-```text
-Token
-  ↓
-Encoding
-  ↓
-Sequence
-  ↓
-Hidden State
-  ↓
-Recurrent Computation
-  ↓
-Output Probability
-  ↓
-Loss
-  ↓
-Training
-  ↓
-Prediction
-```
-
-That progression is the real purpose of this repository: **understand the mechanism before abstracting it behind a library.**
+It simply changes the inference distribution.
 
 ---
 
-# ▶️ How to Run
+# ✍️ 20. Autoregressive Generation
 
-## Option 1 — Google Colab
+Generation is performed repeatedly.
 
-Open:
+Starting with a seed prompt:
 
-[`RNN_Forward_Propagation.ipynb`](./RNN_Forward_Propagation.ipynb)
+~~~text
+the future of science
+~~~
 
-Then open it in Google Colab and run the notebook from top to bottom.
+the model predicts the next token.
 
-The notebook was executed in a Colab environment with a T4 GPU configuration.
+That token is appended.
 
-## Option 2 — Local Jupyter Environment
+The updated context is then used to make the next prediction.
 
-Clone the repository:
+The loop becomes:
 
-```bash
+~~~text
+seed
+ ↓
+predict
+ ↓
+append
+ ↓
+truncate context
+ ↓
+predict
+ ↓
+append
+ ↓
+repeat
+~~~
+
+This is called autoregressive generation because each new prediction depends on the sequence produced so far.
+
+The process can continue for an arbitrary number of generation steps, subject to the context-window logic implemented by the notebook.
+
+---
+
+# 🧪 21. Reproducibility
+
+Reproducibility is more than adding a random seed.
+
+A useful experiment record should include:
+
+~~~text
+code version
+dataset version
+preprocessing
+hyperparameters
+random seeds
+hardware
+software versions
+training procedure
+evaluation procedure
+model artifacts
+~~~
+
+The current language-model notebook explicitly sets seeds and records key configuration values.
+
+For future versions, the project should move recurring configuration into reusable files rather than duplicating constants across notebooks.
+
+---
+
+# 💾 22. Model Artifacts
+
+The repository currently includes a trained GRU model:
+
+~~~text
+models/gru_sentiment_model.keras
+~~~
+
+The language-model notebook also contains serialization logic for:
+
+~~~text
+wikitext103_lstm_next_word_predictor.keras
+wikitext103_word_to_id.json
+wikitext103_id_to_word.json
+training_history.csv
+~~~
+
+The recommended repository architecture separates these generated artifacts from notebooks.
+
+That makes it easier to answer:
+
+~~~text
+What is source?
+What is generated?
+What is trained?
+What is reusable?
+~~~
+
+---
+
+# 📈 23. Visualization
+
+The notebooks include visual inspection of data and training behavior.
+
+Strong sequence-model visualizations include:
+
+- dataset split sizes
+- token frequency
+- text-length distribution
+- training loss
+- validation loss
+- top-k accuracy
+- perplexity
+- prediction probabilities
+- confidence values
+- vocabulary statistics
+- embedding statistics
+
+Visualization should answer a question.
+
+For example:
+
+### Is the model overfitting?
+
+Compare training and validation loss.
+
+### Are predictions uncertain?
+
+Inspect probability distributions.
+
+### Is a small subset of words dominating?
+
+Inspect frequency plots.
+
+### Is generation overly conservative?
+
+Compare samples at different temperatures.
+
+### Does model capacity justify itself?
+
+Compare validation quality against parameter count and runtime.
+
+---
+
+# 🧠 24. Common Failure Modes
+
+## Shape mismatches
+
+Sequence models create three-dimensional tensors frequently.
+
+Always know whether you have:
+
+~~~text
+(batch, time)
+~~~
+
+or:
+
+~~~text
+(batch, time, features)
+~~~
+
+or:
+
+~~~text
+(batch, features)
+~~~
+
+Blindly guessing shapes is a debugging tax.
+
+---
+
+## Token-indexing mistakes
+
+Keep token-to-ID and ID-to-token mappings consistent.
+
+Use explicit special tokens such as:
+
+~~~text
+<PAD>
+<UNK>
+~~~
+
+when the task requires them.
+
+---
+
+## Padding mistakes
+
+Padding is not real language.
+
+The model must either learn to ignore padded positions or use masking where appropriate.
+
+---
+
+## Data leakage
+
+Do not allow test information to leak into vocabulary construction or preprocessing statistics when the experiment is intended to simulate a clean train/test workflow.
+
+---
+
+## Overfitting
+
+Tiny datasets can be memorized very quickly.
+
+A model that performs brilliantly on the training samples can still be useless outside them.
+
+---
+
+## Generation loops
+
+Poorly trained language models can repeat tokens, fall into degenerate loops, or produce incoherent sequences.
+
+This can arise from:
+
+- insufficient training
+- limited data
+- model capacity
+- decoding strategy
+- vocabulary constraints
+- context limitations
+
+---
+
+# 🧪 25. Controlled Experiments To Add
+
+The strongest future version of this project should add ablations.
+
+Instead of changing five things at once, change one factor while holding the others fixed.
+
+### Embedding dimension
+
+Compare:
+
+~~~text
+64
+128
+256
+~~~
+
+Measure:
+
+- parameter count
+- validation loss
+- perplexity
+- runtime
+
+### Context length
+
+Compare:
+
+~~~text
+16
+32
+64
+128
+~~~
+
+Ask whether additional context produces measurable benefit.
+
+### Hidden dimension
+
+Increase recurrent width and observe the compute/performance trade-off.
+
+### Dropout
+
+Compare regularization settings while watching validation behavior.
+
+### Optimizer
+
+Compare Adam and AdamW under a controlled setup.
+
+### RNN family
+
+Compare:
+
+~~~text
+SimpleRNN
+GRU
+LSTM
+~~~
+
+using the same data pipeline and evaluation protocol.
+
+That last condition matters enormously.
+
+A fair comparison requires a fair experimental design.
+
+---
+
+# 🔬 26. Recommended Evaluation Framework
+
+For classification experiments:
+
+| Area | Recommended measurement |
+|---|---|
+| Overall performance | Accuracy |
+| Positive prediction quality | Precision |
+| Positive detection | Recall |
+| Balanced metric | F1 |
+| Error structure | Confusion matrix |
+| Threshold behavior | ROC-AUC where appropriate |
+
+For language modeling:
+
+| Area | Recommended measurement |
+|---|---|
+| Training objective | Cross-entropy |
+| Exact prediction | Top-1 |
+| Useful candidate coverage | Top-3 / Top-5 |
+| Uncertainty | Perplexity |
+| Generation behavior | Human inspection + sample diversity |
+
+Metrics do not replace inspection.
+
+Especially for generated text, a number can only capture part of the story.
+
+---
+
+# 🧠 27. RNN vs LSTM vs GRU
+
+At the conceptual level:
+
+| Architecture | State design | Main idea |
+|---|---|---|
+| Vanilla RNN | Hidden state | Simple recurrence |
+| LSTM | Hidden + cell state | Explicit gated memory |
+| GRU | Gated hidden state | Simpler gated recurrence |
+| Bidirectional variant | Forward + backward states | Both directional contexts |
+
+The useful takeaway is not that one row is always superior.
+
+The architecture should match the problem and constraints.
+
+Think in terms of:
+
+~~~text
+task
++
+data
++
+sequence length
++
+latency
++
+memory
++
+training budget
++
+deployment constraints
+~~~
+
+---
+
+# 🧭 28. From RNNs to Transformers
+
+Transformers changed sequence modeling, but learning recurrent networks is still valuable.
+
+RNNs teach:
+
+- hidden state
+- state transitions
+- temporal dependence
+- parameter sharing
+- gradient flow
+- autoregressive prediction
+- sequence-to-sequence thinking
+
+Those ideas form useful mental foundations for later attention and Transformer study.
+
+A logical continuation is:
+
+~~~text
+RNN
+ ↓
+LSTM / GRU
+ ↓
+Seq2Seq
+ ↓
+Attention
+ ↓
+Self-Attention
+ ↓
+Transformer
+ ↓
+Pretrained Transformers
+ ↓
+Fine-Tuning / Inference
+~~~
+
+---
+
+# 🛠️ Setup
+
+## 1. Clone the repository
+
+~~~text
 git clone https://github.com/Maganpreet-Singh/recurrent-neural-networks.git
 cd recurrent-neural-networks
-```
+~~~
 
-Install dependencies:
+## 2. Create a virtual environment
 
-```bash
-pip install numpy tensorflow matplotlib
-```
+### Windows
 
-Launch Jupyter:
+~~~text
+python -m venv .venv
+.venv\Scripts\activate
+~~~
 
-```bash
+### Linux / macOS
+
+~~~text
+python3 -m venv .venv
+source .venv/bin/activate
+~~~
+
+## 3. Install dependencies
+
+The repository includes a baseline <code>requirements.txt</code>.
+
+~~~text
+pip install -r requirements.txt
+~~~
+
+The current baseline includes:
+
+~~~text
+numpy
+pandas
+matplotlib
+tensorflow
+datasets
+jupyter
+~~~
+
+TensorFlow availability can depend on the Python version and operating system, so the exact environment should be validated locally before training the larger experiments.
+
+## 4. Launch Jupyter
+
+~~~text
 jupyter notebook
-```
+~~~
 
-Open:
+Open the desired notebook from:
 
-```text
-RNN_Forward_Propagation.ipynb
-```
-
-and execute the cells sequentially.
+~~~text
+notebooks/
+~~~
 
 ---
 
-# 🗂️ Suggested Future Repository Structure
+# ☁️ Google Colab
 
-As this learning project grows, the repository can evolve into:
+Google Colab is a convenient runtime for the heavier notebooks.
 
-```text
-recurrent-neural-networks/
-│
-├── notebooks/
-│   ├── 01_rnn_forward_propagation.ipynb
-│   ├── 02_rnn_backpropagation.ipynb
-│   ├── 03_lstm.ipynb
-│   ├── 04_gru.ipynb
-│   └── 05_text_classification.ipynb
-│
-├── src/
-│   ├── rnn.py
-│   ├── lstm.py
-│   ├── gru.py
-│   └── preprocessing.py
+A practical flow is:
+
+~~~text
+open notebook
+    ↓
+connect runtime
+    ↓
+select hardware
+    ↓
+install missing packages
+    ↓
+run from top to bottom
+~~~
+
+The larger WikiText language-modeling experiment can benefit from GPU access.
+
+The notebook checks for GPU availability and can enable mixed precision when suitable hardware is present.
+
+---
+
+# 📦 Dependency Strategy
+
+A growing machine-learning repository benefits from deterministic environments.
+
+The next step beyond a baseline requirements file is to pin tested versions.
+
+For example:
+
+~~~text
+package
+==
+exact version
+~~~
+
+The right versions should be based on the environment that has actually been tested.
+
+Do not blindly freeze a notebook session and assume that the resulting file is automatically portable.
+
+Compatibility between:
+
+- Python
+- TensorFlow
+- CUDA
+- cuDNN
+- NumPy
+
+can matter for local GPU workflows.
+
+---
+
+# 🧱 29. Production-Oriented Repository Evolution
+
+A notebook-only project is excellent for learning.
+
+A production-oriented project needs stronger separation of responsibilities.
+
+The next structural evolution is:
+
+~~~text
+notebooks
+    = experiments and explanations
+
+src
+    = reusable implementation
+
+configs
+    = experiment settings
+
+tests
+    = correctness checks
+
+models
+    = trained artifacts
+
+reports
+    = metrics and figures
+
+scripts
+    = repeatable commands
+~~~
+
+This architecture enables a transition from:
+
+~~~text
+"Here is my notebook"
+~~~
+
+to:
+
+~~~text
+"Here is a reproducible machine-learning project."
+~~~
+
+---
+
+# 🧪 30. Suggested Source Layout
+
+A mature implementation could use:
+
+~~~text
+src/
+├── data/
+│   ├── preprocessing.py
+│   ├── vocabulary.py
+│   └── datasets.py
 │
 ├── models/
+│   ├── rnn.py
+│   ├── gru.py
+│   ├── lstm.py
+│   └── embedding.py
 │
-├── data/
+├── training/
+│   ├── train.py
+│   ├── callbacks.py
+│   └── seed.py
 │
-├── README.md
-└── requirements.txt
-```
+├── evaluation/
+│   ├── classification.py
+│   └── language_modeling.py
+│
+└── inference/
+    ├── sentiment.py
+    └── text_generation.py
+~~~
 
-This would make the project easier to navigate as more architectures are added.
+The notebooks can then import the reusable logic.
 
----
-
-# 📚 Recommended Next Topics
-
-Once vanilla RNN forward propagation is comfortable, study:
-
-### 1. Backpropagation Through Time
-
-Understand how gradients flow across multiple time steps.
-
-### 2. Vanishing and Exploding Gradients
-
-Understand one of the major limitations of vanilla recurrent networks.
-
-### 3. LSTM
-
-Study:
-
-- forget gate
-- input gate
-- output gate
-- cell state
-
-### 4. GRU
-
-Compare GRU's simplified gating mechanism with LSTM.
-
-### 5. Bidirectional RNNs
-
-Learn how information can be processed from both directions.
-
-### 6. Sequence-to-Sequence Models
-
-Move from single-output classification to sequence generation and transformation.
-
-### 7. Attention and Transformers
-
-Understand why modern sequence architectures increasingly rely on attention mechanisms rather than recurrence.
+That eliminates copy-paste code and makes experiments easier to reproduce.
 
 ---
 
-# 🤝 Contributions
+# 🧪 31. Testing Strategy
 
-This repository is primarily a personal learning and experimentation project.
+Even deep-learning repositories need tests.
 
-Suggestions, corrections, improvements, and educational extensions are welcome.
+Useful tests include:
 
-A useful contribution should ideally improve one of the following:
+### Vocabulary round-trip
 
-- mathematical clarity
-- implementation quality
-- reproducibility
-- documentation
-- visualization
-- model experimentation
-- dataset realism
+~~~text
+word → id → word
+~~~
+
+### Padding
+
+Verify expected sequence length.
+
+### Context-window generation
+
+Verify that inputs and targets are aligned.
+
+### Output shape
+
+Verify expected model tensor dimensions.
+
+### Serialization
+
+Save a model, reload it, and run the same input through both versions.
+
+### Determinism
+
+Where practical, verify seeded preprocessing behavior.
+
+Testing should focus on things that can fail silently and contaminate experiments.
 
 ---
 
-# 📜 License
+# 🔐 32. Security and Data Hygiene
 
-No explicit license file is currently included in the repository.
+Never commit:
 
-Until a license is added, the repository should be treated according to the default copyright rules that apply to the published source.
+~~~text
+API keys
+passwords
+tokens
+private datasets
+credentials
+~~~
+
+Add environment-specific artifacts to <code>.gitignore</code>.
+
+Generated files should also be managed intentionally.
+
+Do not commit every intermediate checkpoint simply because Git can technically store it.
+
+For larger artifacts, use an appropriate model/data registry or Git LFS strategy.
+
+---
+
+# 📋 33. Recommended .gitignore
+
+A useful starting point is:
+
+~~~text
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+logs/
+artifacts/
+data/raw/
+~~~
+
+The exact contents should evolve with the project.
+
+---
+
+# 📄 34. Documentation Strategy
+
+A 50,000-word README is usually counterproductive.
+
+A better documentation architecture is:
+
+~~~text
+README.md
+    ↓
+project overview
+    ↓
+docs/
+    ├── learning-guide.md
+    ├── fundamentals.md
+    ├── architectures.md
+    ├── sentiment-analysis.md
+    ├── language-modeling.md
+    └── experiments.md
+~~~
+
+This gives the repository two layers:
+
+### Fast layer
+
+README for visitors, reviewers, recruiters, and collaborators.
+
+### Deep layer
+
+Documentation for the person who wants the full technical story.
+
+That is the scalable way to reach very deep documentation without turning the repository landing page into an enormous wall of text.
+
+---
+
+# 📚 35. Study Guide
+
+Use the project as an active learning checklist.
+
+## RNN fundamentals
+
+- [ ] Explain sequence data
+- [ ] Explain time steps
+- [ ] Explain hidden state
+- [ ] Derive the recurrence equation
+- [ ] Count parameters
+- [ ] Explain tanh
+- [ ] Explain sigmoid
+- [ ] Explain binary cross-entropy
+
+## Representation
+
+- [ ] One-hot encoding
+- [ ] Integer token IDs
+- [ ] Embedding lookup
+- [ ] Padding
+- [ ] Masking
+- [ ] Tensor shapes
+
+## Architecture
+
+- [ ] SimpleRNN
+- [ ] Deep RNN
+- [ ] Bidirectional RNN
+- [ ] LSTM
+- [ ] GRU
+
+## NLP
+
+- [ ] Sentiment classification
+- [ ] Next-token prediction
+- [ ] Vocabulary construction
+- [ ] Context windows
+- [ ] Top-k accuracy
+- [ ] Perplexity
+- [ ] Temperature sampling
+- [ ] Autoregressive generation
+
+## Engineering
+
+- [ ] Save model
+- [ ] Save vocabulary
+- [ ] Record hyperparameters
+- [ ] Add reproducible dependencies
+- [ ] Add tests
+- [ ] Add CI
+- [ ] Build inference API
+
+---
+
+# 🚀 36. Roadmap
+
+## Phase 1 — RNN Foundations
+
+Add:
+
+- manual backpropagation through time
+- gradient-flow demonstrations
+- vanishing-gradient experiments
+- exploding-gradient experiments
+- hidden-state visualizations
+
+## Phase 2 — Architecture Comparisons
+
+Create controlled comparisons among:
+
+- SimpleRNN
+- GRU
+- LSTM
+- Bidirectional GRU
+- Bidirectional LSTM
+
+## Phase 3 — Stronger Sentiment Analysis
+
+Add:
+
+- explicit test set
+- confusion matrix
+- precision
+- recall
+- F1
+- error analysis
+- threshold analysis
+
+## Phase 4 — Better Language Modeling
+
+Add experiments for:
+
+- context length
+- vocabulary size
+- embedding size
+- hidden size
+- dropout
+- optimizer
+- learning rate
+- recurrent depth
+
+## Phase 5 — Deployment
+
+Build an inference service:
+
+~~~text
+HTTP request
+     ↓
+tokenization
+     ↓
+trained model
+     ↓
+prediction
+     ↓
+JSON response
+~~~
+
+Possible frameworks:
+
+~~~text
+FastAPI
+Flask
+~~~
+
+## Phase 6 — Interactive Demo
+
+Potential UI options:
+
+~~~text
+Streamlit
+Gradio
+HTML + JavaScript
+~~~
+
+Possible demos:
+
+- sentiment analyzer
+- next-word predictor
+- temperature comparison
+- top-k comparison
+- model confidence viewer
+
+## Phase 7 — Attention and Transformers
+
+Move into:
+
+- attention from first principles
+- self-attention
+- positional encoding
+- encoder architecture
+- decoder architecture
+- Transformer training
+- pretrained model fine-tuning
+
+---
+
+# 🧠 37. Deeper Conceptual Connections
+
+RNNs teach a broader lesson about machine learning.
+
+A model is fundamentally an information-processing system.
+
+For an RNN:
+
+~~~text
+input
+ ↓
+state transition
+ ↓
+new state
+ ↓
+future computation
+~~~
+
+For an LSTM:
+
+~~~text
+input + hidden state + cell state
+ ↓
+gated update
+ ↓
+new hidden state + new cell state
+~~~
+
+For an autoregressive language model:
+
+~~~text
+context
+ ↓
+probability distribution
+ ↓
+sample token
+ ↓
+new context
+ ↓
+repeat
+~~~
+
+Different architectures may look radically different in code, but they all solve the same broad engineering problem:
+
+> How should useful information be represented and transformed so that the next prediction becomes better?
+
+---
+
+# 💡 38. Why Manual Mathematics Matters
+
+Framework APIs can make difficult architectures feel easy.
+
+That is both useful and dangerous.
+
+Useful because engineers can build quickly.
+
+Dangerous because abstraction can hide the mechanism.
+
+A manual RNN forward pass forces you to see:
+
+~~~text
+x_t
+ ↓
+W_xh x_t
+ +
+W_hh h_(t-1)
+ +
+b_h
+ ↓
+tanh
+ ↓
+h_t
+~~~
+
+Once that is clear, a <code>SimpleRNN</code> layer becomes less mysterious.
+
+The same principle scales to LSTM and GRU.
+
+Learn the mechanism.
+
+Then use the abstraction.
+
+---
+
+# ⚠️ 39. What This Repository Does Not Claim
+
+This repository is a learning and experimentation project.
+
+It does not claim to provide:
+
+- state-of-the-art NLP performance
+- a production-grade sentiment benchmark
+- a production-grade language model
+- a universal architecture recommendation
+- a complete Transformer implementation
+
+The experiments demonstrate concepts and engineering patterns.
+
+They are stepping stones toward larger projects.
+
+---
+
+# 🏁 40. Final Takeaway
+
+The real purpose of this repository is not to collect six notebooks.
+
+It is to document a progression:
+
+~~~text
+mathematics
+    ↓
+tensor representation
+    ↓
+recurrent state
+    ↓
+embeddings
+    ↓
+gated recurrence
+    ↓
+NLP classification
+    ↓
+language modeling
+    ↓
+generation
+    ↓
+deployment
+~~~
+
+That progression gives the project a coherent identity.
+
+The repository begins with:
+
+> “What exactly happens during one recurrent update?”
+
+and eventually reaches:
+
+> “How can a recurrent model assign probabilities to the next token and use those probabilities to generate text?”
+
+That is a substantial conceptual journey.
+
+---
+
+# ⭐ Repository Philosophy
+
+~~~text
+Understand the equation.
+        ↓
+Understand the tensor.
+        ↓
+Implement the mechanism.
+        ↓
+Use the framework.
+        ↓
+Run the experiment.
+        ↓
+Measure the result.
+        ↓
+Save the artifact.
+        ↓
+Document the limits.
+        ↓
+Build something real.
+~~~
+
+A strong ML project is not defined by how many notebooks it contains.
+
+It is defined by whether another person can understand:
+
+~~~text
+what was built
+why it was built
+how it was trained
+how it was evaluated
+what the results mean
+what the limitations are
+what comes next
+~~~
+
+That is the standard this repository should continue to follow.
 
 ---
 
@@ -908,36 +2118,35 @@ Until a license is added, the repository should be treated according to the defa
 
 Computer Science & Engineering student focused on:
 
-```text
+~~~text
 Python
 Data Science
 Machine Learning
 Deep Learning
-Computer Vision
 Natural Language Processing
-```
+Computer Vision
+~~~
 
 GitHub:  
 https://github.com/Maganpreet-Singh
 
+Repository:  
+https://github.com/Maganpreet-Singh/recurrent-neural-networks
+
 ---
 
-# ⭐ Repository Philosophy
+# 📄 License
 
-This project follows a simple principle:
+Add an explicit license file before describing this repository as openly reusable.
 
-> **Learn the mathematics → implement the idea → use the framework → build something real.**
-
-Deep learning becomes much less mysterious when the tensors, equations, activations, hidden states, and gradients stop being black boxes.
-
-This repository is one step in that progression.
+Public visibility does not automatically grant broad reuse rights.
 
 ---
 
 <p align="center">
-  <strong>🔄 From Sequence → State → Prediction</strong>
+  <strong>🔄 Sequence → State → Context → Prediction</strong>
 </p>
 
 <p align="center">
-  Built with Python, NumPy, TensorFlow, and curiosity.
+  Built with Python, TensorFlow, Keras, NumPy, and curiosity.
 </p>
